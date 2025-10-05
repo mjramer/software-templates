@@ -56,6 +56,12 @@ spec:
         targetPath: ./community
         url: https://github.com/backstage/community/tree/main/backstage-community-sessions
 
+    - id: debug-github-condition
+      name: Debug GitHub Condition
+      action: debug:log
+      input:
+        message: 'GitHub Condition: ${{ parameters.repoUrl.includes(''github.com'') }}'
+
     - id: publish-github
       name: Publish to GitHub
       action: publish:github:pull-request
@@ -69,6 +75,12 @@ spec:
 
           ${{ parameters.description if parameters.description }}
         targetPath: ${{ parameters.targetPath if parameters.targetPath else parameters.name }}
+
+    - id: debug-azure-condition
+      name: Debug Azure Condition
+      action: debug:log
+      input:
+        message: 'Azure Condition: ${{ parameters.repoUrl.includes(''dev.azure.com'') }}'
 
     - id: publish-azure
       name: Publish to Azure
