@@ -38,6 +38,7 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+              - dev.azure.com
 
   steps:
     - id: fetch-base
@@ -55,9 +56,24 @@ spec:
         targetPath: ./community
         url: https://github.com/backstage/community/tree/main/backstage-community-sessions
 
-    - id: publish
-      name: Publish
+    - id: publish-github
+      name: Publish to GitHub
       action: publish:github:pull-request
+      if: ${{ parameters.repoUrl.includes('github.com') }}
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        title: "Create new project: ${{parameters.name}}"
+        branchName: create-${{parameters.name}}
+        description: |
+          # New project: ${{parameters.name}}
+
+          ${{ parameters.description if parameters.description }}
+        targetPath: ${{ parameters.targetPath if parameters.targetPath else parameters.name }}
+
+    - id: publish-azure
+      name: Publish to Azure
+      action: publish:azure:pull-request
+      if: ${{ parameters.repoUrl.includes('dev.azure.com') }}
       input:
         repoUrl: ${{ parameters.repoUrl }}
         title: "Create new project: ${{parameters.name}}"
@@ -70,5 +86,5 @@ spec:
 
   output:
     links:
-      - url: ${{steps.publish.output.remoteUrl}}
+      - url: ${{ steps['publish-github'].output.remoteUrl or steps['publish-azure'].output.remoteUrl }}
         title: "Go to PR"
