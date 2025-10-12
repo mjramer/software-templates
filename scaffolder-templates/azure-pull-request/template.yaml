@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: pull-request
-  title: Pull Request Action template
+  name: azure-pull-request
+  title: Azure DevOps Pull Request Action template
   description: scaffolder v1beta3 template demo publishing to PR on existing git repository
 spec:
   owner: backstage/techdocs-core
@@ -37,7 +37,7 @@ spec:
           ui:field: RepoUrlPicker
           ui:options:
             allowedHosts:
-              - github.com
+              - dev.azure.com
 
   steps:
     - id: fetch-base
