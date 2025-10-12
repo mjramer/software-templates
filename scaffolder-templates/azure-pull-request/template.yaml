@@ -57,7 +57,7 @@ spec:
 
     - id: publish
       name: Publish
-      action: publish:github:pull-request
+      action: publish:azure:pull-request
       input:
         repoUrl: ${{ parameters.repoUrl }}
         title: "Create new project: ${{parameters.name}}"
